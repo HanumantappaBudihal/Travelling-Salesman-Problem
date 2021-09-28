@@ -17,6 +17,7 @@ public:
     double alpha;       // importance of the pheromone level
     double beta;        // importance of the visibility
     Data d;
+
     void Init(double a, double b, double e, Data ds);
     void run();
 };

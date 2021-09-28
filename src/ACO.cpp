@@ -21,7 +21,7 @@ void ACO::Init(double a, double b, double e, Data ds)
     d = ds;
 
     // N = d.N;
-    // M = 1000; // ants //should be parameterized
+    M = 100; // ants //should be parameterized
 
     for (int i = 0; i < M; i++)
     {
@@ -43,6 +43,7 @@ void ACO::run()
                 ant[i].step();
             }
         }
+
         for (int i = 0; i < M; i++)
         {
             vector<int> p = ant[i].stop();

@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <stdio.h>
+#include <iostream>
 
 #include "../include/Data.h"
 
