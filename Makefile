@@ -19,11 +19,11 @@ CC = g++
 
 all: $(BINDIR)/tsp 
 
-$(BINDIR)/tsp: $(OBJDIR)/main.o  $(OBJDIR)/GeneticAlgorithm.o $(OBJDIR)/Graph.o
-	$(CC) -g -o $(BINDIR)/tsp  $(OBJDIR)/main.o $(OBJDIR)/GeneticAlgorithm.o  $(OBJDIR)/Graph.o -I$(INCDIR)
+$(BINDIR)/tsp: $(OBJDIR)/Main.o  $(OBJDIR)/GeneticAlgorithm.o $(OBJDIR)/Graph.o
+	$(CC) -g -o $(BINDIR)/tsp  $(OBJDIR)/Main.o $(OBJDIR)/GeneticAlgorithm.o  $(OBJDIR)/Graph.o -I$(INCDIR)
 
-$(OBJDIR)/main.o: $(SRCDIR)/main.cpp 
-	$(CC) $(CFLAGS) -o $(OBJDIR)/main.o $(SRCDIR)/main.cpp -I$(INCDIR)
+$(OBJDIR)/Main.o: $(SRCDIR)/Main.cpp 
+	$(CC) $(CFLAGS) -o $(OBJDIR)/Main.o $(SRCDIR)/Main.cpp -I$(INCDIR)
 
 $(OBJDIR)/GeneticAlgorithm.o:	$(SRCDIR)/GeneticAlgorithm.cpp
 	$(CC) $(CFLAGS) -o $(OBJDIR)/GeneticAlgorithm.o $(SRCDIR)/GeneticAlgorithm.cpp -I$(INCDIR)
@@ -33,6 +33,13 @@ $(OBJDIR)/Graph.o:	$(SRCDIR)/Graph.cpp
 
 clean: 
 	rm -fr $(BINDIR)/* $(OBJDIR)/* 
+
+build: 
+	make clean
+	make
+
+run: 
+	./bin/tsp
 
 
 

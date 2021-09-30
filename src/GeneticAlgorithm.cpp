@@ -21,14 +21,12 @@
 using namespace std;
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : GeneticAlgorithm (Constructor)
  * 
- * Purpose  : //TODO : Need to add the comment here
- * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Purpose  : Create the instane of GeneticAlgorithm with intial data * 
+ * Inputs   : Graph data, size of population , generations and mutation rate         
  ******************************************************************************************************************/
-GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generations, int mutationRate, bool showPopulation)
+GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generations, int mutationRate)
 {
     this->graph = graph;
     this->size_population = sizePopulation;
@@ -38,13 +36,13 @@ GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generat
 } //End of Constructor
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : IsValidSolution
  * 
- * Purpose  :Verify the solution is valid or not.
+ * Purpose  : Verify the solution is valid or not.
  * 
  * Inputs   : solution
- * Outputs  : return true if solution is valid
- *                        else false      
+ * Outputs  : return tptal cost of the valid if solution is valid
+ *                   else -1      
  ******************************************************************************************************************/
 float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
 {
@@ -54,7 +52,7 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
     for (int i = 0; i < graph->_size; i++)
         setSolution.insert(solution[i]);
 
-    if (setSolution.size() != (unsigned)graph->_size) //TODO : Need to understand the code here?
+    if (setSolution.size() != (unsigned)graph->_size)
         return -1;
 
     for (int i = 0; i < graph->_size; i++)
@@ -82,14 +80,14 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
 }
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : IsChromosomeExists (Constructor)
  * 
  * Purpose  : //TODO : Need to add the comment here
  * 
  * Inputs   : //TODO : Need to add the comment here
  * Outputs  : //TOOD : Need to add the comment here           
  ******************************************************************************************************************/
-bool GeneticAlgorithm::ExistsChromosome(const vector<int> &v)
+bool GeneticAlgorithm::IsChromosomeExists(const vector<int> &v)
 {
     for (vector<pair<vector<int>, float>>::iterator it = population.begin(); it != population.end(); ++it)
     {
@@ -128,7 +126,7 @@ void GeneticAlgorithm::initialPopulation()
 
         float total_cost = IsValidSolution(parent);
 
-        if (!ExistsChromosome(parent))
+        if (!IsChromosomeExists(parent))
         {
             population.push_back(make_pair(parent, total_cost));
             real_size_population++;
@@ -282,12 +280,12 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
 
     float total_cost_child1 = IsValidSolution(child1);
     float total_cost_child2 = IsValidSolution(child2);
-    if (!ExistsChromosome(child1))
+    if (!IsChromosomeExists(child1))
     {
         InsertBinarySearch(child1, total_cost_child1);
         real_size_population++;
     }
-    if (!ExistsChromosome(child2))
+    if (!IsChromosomeExists(child2))
     {
         InsertBinarySearch(child2, total_cost_child2);
         real_size_population++;

@@ -29,7 +29,7 @@ int main()
         }
     }
 
-    GeneticAlgorithm genetic(graph5, 20, 100000, 17, true);
+    GeneticAlgorithm genetic(graph5, 20, 100000, 17);
 
     const clock_t begin_time = clock();
     genetic.Run();
