@@ -65,24 +65,24 @@ public:
         }
     }
 
-    double GetTourCost(vector<int> C)
+    double GetTourCost(vector<int> tour)
     {
-        int l = C.size();
+        int length = tour.size();
         double tourCost = 0.0;
-        l = l - 1;
-        for (int i = 0; i < l; i++)
+        length = length - 1;
+        for (int i = 0; i < length; i++)
         {
-            tourCost += CostMatrix[C[i]][C[i + 1]];
+            tourCost += CostMatrix[tour[i]][tour[i + 1]];
         }
 
-        tourCost += CostMatrix[C[l]][C[0]];
+        tourCost += CostMatrix[tour[length]][tour[0]];
         return tourCost;
     }
 
-    void print(vector<int> C)
+    void PrintTour(vector<int> tour)
     {
-        for (int i = 0; i < C.size(); i++)
-            printf("%d ", C[i]);
+        for (int i = 0; i < tour.size(); i++)
+            printf("%d ", tour[i]);
         printf("\n");
     }
 };
@@ -102,7 +102,11 @@ public:
     {
         alpha = _alpha;
         beta = _beta;
-        trail.push_back(1); // always start from the nest (1)
+
+        //TODO : Let's start the randmoly
+        //trail.push_back(1); // always start from the nest (1)
+        int startCity = (rand() % (d.NumberOfCities - 1)) + 1;
+        trail.push_back(startCity); // start randomly
 
         for (int i = 2; i <= d.NumberOfCities; i++)
         {
@@ -226,8 +230,8 @@ public:
         beta = b;
         evaporation = e;
         NumberOfCities = d.NumberOfCities;
-        M = NumberOfCities * 2; // ants
-                                // M = rand() % NumberOfCities;
+        M = 2048; // ants
+                  // M = rand() % NumberOfCities;
         for (int i = 0; i < M; i++)
         {
             Ant a(alpha, beta);
@@ -277,7 +281,7 @@ public:
         }
 
         printf("%lf\n", minTour);
-        d.print(PATH);
+        d.PrintTour(PATH);
     }
 };
 
@@ -286,10 +290,12 @@ int main(void)
     time_t startTime, endTime; // TODO : Need to remove the this code later , execution time for code
     startTime = clock();
 
+    srand(time(NULL));
+
     //TODO : Can we move as class member ?
-    double alpha = (double)rand() / RAND_MAX;           // Pheromones influence ( range 0-1) //TODO : Need to study more about this ?
-    double beta = (double)rand() / RAND_MAX;            // Visibilities influence(range 0-1)
-    double evaporationRate = (double)rand() / RAND_MAX; // Evaporation rate ( good value is 0.5)
+    double alpha = -0.2;          //(double)rand() / RAND_MAX; // Pheromones influence ( range 0-1) //TODO : Need to study more about this ?
+    double beta = 9.6;            //(double)rand() / RAND_MAX;  // Visibilities influence(range 0-1)
+    double evaporationRate = 0.3; //(double)rand() / RAND_MAX; // Evaporation rate ( good value is 0.5)
 
     AntColonyOptimization colony(alpha, beta, evaporationRate);
     colony.run();
