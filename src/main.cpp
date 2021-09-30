@@ -32,7 +32,7 @@ int main()
     GeneticAlgorithm genetic(graph5, 20, 100000, 17, true);
 
     const clock_t begin_time = clock();
-    genetic.run();
+    genetic.Run();
     cout << "\n\nTime for to run the genetic algorithm: " << float(clock() - begin_time) / CLOCKS_PER_SEC << " seconds.";
     return 0;
 }

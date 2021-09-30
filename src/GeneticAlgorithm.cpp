@@ -35,7 +35,6 @@ GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generat
     this->real_size_population = 0;
     this->generations = generations;
     this->mutation_rate = mutationRate;
-    this->show_population = showPopulation; //TODO : DO we need this part ?
 } //End of Constructor
 
 /*****************************************************************************************************************
@@ -47,7 +46,7 @@ GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generat
  * Outputs  : return true if solution is valid
  *                        else false      
  ******************************************************************************************************************/
-float GeneticAlgorithm::isValidSolution(vector<int> &solution)
+float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
 {
     float totalCost = 0;
     set<int> setSolution;
@@ -82,7 +81,15 @@ float GeneticAlgorithm::isValidSolution(vector<int> &solution)
     return totalCost;
 }
 
-bool GeneticAlgorithm::existsChromosome(const vector<int> &v)
+/*****************************************************************************************************************
+ * Function : Graph (Constructor)
+ * 
+ * Purpose  : //TODO : Need to add the comment here
+ * 
+ * Inputs   : //TODO : Need to add the comment here
+ * Outputs  : //TOOD : Need to add the comment here           
+ ******************************************************************************************************************/
+bool GeneticAlgorithm::ExistsChromosome(const vector<int> &v)
 {
     for (vector<pair<vector<int>, float>>::iterator it = population.begin(); it != population.end(); ++it)
     {
@@ -93,6 +100,14 @@ bool GeneticAlgorithm::existsChromosome(const vector<int> &v)
     return false;
 }
 
+/*****************************************************************************************************************
+ * Function : Graph (Constructor)
+ * 
+ * Purpose  : //TODO : Need to add the comment here
+ * 
+ * Inputs   : //TODO : Need to add the comment here
+ * Outputs  : //TOOD : Need to add the comment here           
+ ******************************************************************************************************************/
 void GeneticAlgorithm::initialPopulation()
 {
     vector<int> parent;
@@ -102,7 +117,7 @@ void GeneticAlgorithm::initialPopulation()
         if (i != graph->_initialVertex)
             parent.push_back(i);
     }
-    float total_cost = isValidSolution(parent);
+    float total_cost = IsValidSolution(parent);
 
     population.push_back(make_pair(parent, total_cost));
     real_size_population++;
@@ -111,9 +126,9 @@ void GeneticAlgorithm::initialPopulation()
     {
         random_shuffle(parent.begin() + 1, parent.begin() + (rand() % (graph->_size - 1) + 1));
 
-        float total_cost = isValidSolution(parent);
+        float total_cost = IsValidSolution(parent);
 
-        if (!existsChromosome(parent))
+        if (!ExistsChromosome(parent))
         {
             population.push_back(make_pair(parent, total_cost));
             real_size_population++;
@@ -134,21 +149,15 @@ struct sort_pred
     }
 };
 
-void GeneticAlgorithm::showPopulation()
-{
-    cout << "\nShowing solutions...\n\n";
-    for (vector<pair<vector<int>, float>>::iterator it = population.begin(); it != population.end(); ++it)
-    {
-        const vector<int> &vec = (*it).first;
-
-        for (int i = 0; i < graph->_size; i++)
-            cout << vec[i] << " ";
-        cout << " | Cost: " << (*it).second << "\n\n";
-    }
-    cout << "\nPopulation size: " << real_size_population << endl;
-}
-
-void GeneticAlgorithm::insertBinarySearch(vector<int> &child, float total_cost)
+/*****************************************************************************************************************
+ * Function : Graph (Constructor)
+ * 
+ * Purpose  : //TODO : Need to add the comment here
+ * 
+ * Inputs   : //TODO : Need to add the comment here
+ * Outputs  : //TOOD : Need to add the comment here           
+ ******************************************************************************************************************/
+void GeneticAlgorithm::InsertBinarySearch(vector<int> &child, float total_cost)
 {
     int imin = 0;
     int imax = real_size_population - 1;
@@ -169,7 +178,15 @@ void GeneticAlgorithm::insertBinarySearch(vector<int> &child, float total_cost)
     population.insert(population.begin() + imin, make_pair(child, total_cost));
 }
 
-void GeneticAlgorithm::crossOver(vector<int> &parent1, vector<int> &parent2)
+/*****************************************************************************************************************
+ * Function : Graph (Constructor)
+ * 
+ * Purpose  : //TODO : Need to add the comment here
+ * 
+ * Inputs   : //TODO : Need to add the comment here
+ * Outputs  : //TOOD : Need to add the comment here           
+ ******************************************************************************************************************/
+void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
 {
     vector<int> child1, child2;
     map<int, int> genes1, genes2;
@@ -263,21 +280,29 @@ void GeneticAlgorithm::crossOver(vector<int> &parent1, vector<int> &parent2)
         swap(child2[index_gene1], child2[index_gene2]);
     }
 
-    float total_cost_child1 = isValidSolution(child1);
-    float total_cost_child2 = isValidSolution(child2);
-    if (!existsChromosome(child1))
+    float total_cost_child1 = IsValidSolution(child1);
+    float total_cost_child2 = IsValidSolution(child2);
+    if (!ExistsChromosome(child1))
     {
-        insertBinarySearch(child1, total_cost_child1);
+        InsertBinarySearch(child1, total_cost_child1);
         real_size_population++;
     }
-    if (!existsChromosome(child2))
+    if (!ExistsChromosome(child2))
     {
-        insertBinarySearch(child2, total_cost_child2);
+        InsertBinarySearch(child2, total_cost_child2);
         real_size_population++;
     }
 }
 
-void GeneticAlgorithm::run()
+/*****************************************************************************************************************
+ * Function : Graph (Constructor)
+ * 
+ * Purpose  : //TODO : Need to add the comment here
+ * 
+ * Inputs   : //TODO : Need to add the comment here
+ * Outputs  : //TOOD : Need to add the comment here           
+ ******************************************************************************************************************/
+void GeneticAlgorithm::Run()
 {
     initialPopulation();
     if (real_size_population == 0)
@@ -293,7 +318,7 @@ void GeneticAlgorithm::run()
         {
             if (real_size_population == 2)
             {
-                crossOver(population[0].first, population[1].first);
+                CrossOver(population[0].first, population[1].first);
             }
             else
             {
@@ -303,7 +328,7 @@ void GeneticAlgorithm::run()
                     parent1 = rand() % real_size_population;
                     parent2 = rand() % real_size_population;
                 } while (parent1 == parent2);
-                crossOver(population[parent1].first, population[parent2].first);
+                CrossOver(population[parent1].first, population[parent2].first);
             }
             int diff_population = real_size_population - old_size_population;
 
@@ -328,7 +353,7 @@ void GeneticAlgorithm::run()
         }
         else
         {
-            crossOver(population[0].first, population[0].first);
+            CrossOver(population[0].first, population[0].first);
             if (real_size_population > size_population)
             {
                 population.pop_back();

@@ -31,20 +31,18 @@ private:
     int real_size_population;
     int generations;
     int mutation_rate;
-    bool show_population;
 
 private:
     void initialPopulation();
 
 public:
     GeneticAlgorithm(Graph *graph, int amount_population, int generations, int mutation_rate, bool show_population = true);
-    float isValidSolution(std::vector<int> &solution);
-    void showPopulation();
-    void crossOver(std::vector<int> &parent1, std::vector<int> &parent2);
-    void insertBinarySearch(std::vector<int> &child, float total_cost);
-    void run();
-    float getCostBestSolution();
-    bool existsChromosome(const std::vector<int> &v);
+    float IsValidSolution(std::vector<int> &solution);
+    void CrossOver(std::vector<int> &parent1, std::vector<int> &parent2);
+    void InsertBinarySearch(std::vector<int> &child, float total_cost);
+    void Run();
+    float GetCostBestSolution();
+    bool ExistsChromosome(const std::vector<int> &v);
 };
 
 #endif
