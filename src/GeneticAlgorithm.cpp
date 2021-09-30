@@ -2,14 +2,14 @@
 /******************************************************************************************************************
  * File           : GenericAlgorithm.cpp 
  * 
- * Purpose        : implementation of the travelling saleman problem using genetic algorithm
+ * Purpose        : Implementation of the travelling saleman problem using genetic algorithm
  * 
  * Author         : Hanumantappa Budihal 
- * Date           : 23-08-2021 19:10 IST
+ * Date           : 30-09-2021
  * 
  * Bugs Log       :
  * 
- * Change Log     : Initial Creation : 23-08-2021 19:10 IST
+ * Change Log     : Initial Creation : 30-09-2021
  *****************************************************************************************************************/
 
 #include <bits/stdc++.h>
@@ -19,6 +19,20 @@
 #include "../include/GeneticAlgorithm.h"
 
 using namespace std;
+
+//Need to understand what happens if I comment this code?
+//TODO : Need to work this
+/*****************************************************************************************************************
+ * Purpose  : Create the instane of GeneticAlgorithm with intial data * 
+ * Inputs   : Graph data, size of population , generations and mutation rate         
+ ******************************************************************************************************************/
+struct sort_pred
+{
+    bool operator()(const my_pair &firstElem, const my_pair &secondElem)
+    {
+        return firstElem.second < secondElem.second;
+    }
+};
 
 /*****************************************************************************************************************
  * Function : GeneticAlgorithm (Constructor)
@@ -82,7 +96,7 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
 /*****************************************************************************************************************
  * Function : IsChromosomeExists (Constructor)
  * 
- * Purpose  : //TODO : Need to add the comment here
+ * Purpose  : This method verifies the chromosome exits
  * 
  * Inputs   : //TODO : Need to add the comment here
  * Outputs  : //TOOD : Need to add the comment here           
@@ -99,25 +113,26 @@ bool GeneticAlgorithm::IsChromosomeExists(const vector<int> &v)
 }
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : initialPopulation()
  * 
  * Purpose  : //TODO : Need to add the comment here
  * 
  * Inputs   : //TODO : Need to add the comment here
  * Outputs  : //TOOD : Need to add the comment here           
  ******************************************************************************************************************/
-void GeneticAlgorithm::initialPopulation()
+void GeneticAlgorithm::initialPopulation() //Private method
 {
     vector<int> parent;
     parent.push_back(graph->_initialVertex);
+
     for (int i = 0; i < graph->_size; i++)
     {
         if (i != graph->_initialVertex)
             parent.push_back(i);
     }
-    float total_cost = IsValidSolution(parent);
 
-    population.push_back(make_pair(parent, total_cost));
+    float totalCost = IsValidSolution(parent);
+    population.push_back(make_pair(parent, totalCost));
     real_size_population++;
 
     for (int i = 0; i < 10000 && real_size_population != size_population; i++)
@@ -133,19 +148,9 @@ void GeneticAlgorithm::initialPopulation()
         }
     }
 
-    sort(population.begin(), population.end());
-    //sort(population.begin(), population.end(), sort_pred()); //Before comments
+    //sort(population.begin(), population.end());
+    sort(population.begin(), population.end(), sort_pred()); //Before comments
 }
-
-//Need to understand what happens if I comment this code?
-//TODO : Need to work this
-struct sort_pred
-{
-    bool operator()(const my_pair &firstElem, const my_pair &secondElem)
-    {
-        return firstElem.second < secondElem.second;
-    }
-};
 
 /*****************************************************************************************************************
  * Function : Graph (Constructor)
