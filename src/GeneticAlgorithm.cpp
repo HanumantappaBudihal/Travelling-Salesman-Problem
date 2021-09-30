@@ -20,11 +20,12 @@
 
 using namespace std;
 
-//Need to understand what happens if I comment this code?
-//TODO : Need to work this
 /*****************************************************************************************************************
- * Purpose  : Create the instane of GeneticAlgorithm with intial data * 
- * Inputs   : Graph data, size of population , generations and mutation rate         
+ * Purpose  : 
+ * 
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments
  ******************************************************************************************************************/
 struct sort_pred
 {
@@ -38,14 +39,13 @@ struct sort_pred
  * Function : GeneticAlgorithm (Constructor)
  * 
  * Purpose  : Create the instane of GeneticAlgorithm with intial data * 
- * Inputs   : Graph data, size of population , generations and mutation rate         
+ * Inputs   : Graph data, size of population  and mutation rate         
  ******************************************************************************************************************/
-GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generations, int mutationRate)
+GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int mutationRate)
 {
     this->graph = graph;
     this->size_population = sizePopulation;
     this->real_size_population = 0;
-    this->generations = generations;
     this->mutation_rate = mutationRate;
 } //End of Constructor
 
@@ -54,8 +54,8 @@ GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int generat
  * 
  * Purpose  : Verify the solution is valid or not.
  * 
- * Inputs   : solution
- * Outputs  : return tptal cost of the valid if solution is valid
+ * Inputs   : Solution
+ * Outputs  : return total cost of the valid if solution is valid
  *                   else -1      
  ******************************************************************************************************************/
 float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
@@ -94,12 +94,13 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
 }
 
 /*****************************************************************************************************************
- * Function : IsChromosomeExists (Constructor)
+ * Function : IsChromosomeExists
  * 
  * Purpose  : This method verifies the chromosome exits
  * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments        
  ******************************************************************************************************************/
 bool GeneticAlgorithm::IsChromosomeExists(const vector<int> &v)
 {
@@ -115,10 +116,11 @@ bool GeneticAlgorithm::IsChromosomeExists(const vector<int> &v)
 /*****************************************************************************************************************
  * Function : initialPopulation()
  * 
- * Purpose  : //TODO : Need to add the comment here
+ * Purpose  : 
  * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments
  ******************************************************************************************************************/
 void GeneticAlgorithm::initialPopulation() //Private method
 {
@@ -148,46 +150,48 @@ void GeneticAlgorithm::initialPopulation() //Private method
         }
     }
 
-    //sort(population.begin(), population.end());
-    sort(population.begin(), population.end(), sort_pred()); //Before comments
+    sort(population.begin(), population.end(), sort_pred());
 }
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : InsertBinarySearch
  * 
- * Purpose  : //TODO : Need to add the comment here
+ * Purpose  : 
  * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments    
  ******************************************************************************************************************/
 void GeneticAlgorithm::InsertBinarySearch(vector<int> &child, float total_cost)
 {
-    int imin = 0;
-    int imax = real_size_population - 1;
+    int minimum = 0;
+    int maxmum = real_size_population - 1;
 
-    while (imax >= imin)
+    while (maxmum >= minimum)
     {
-        int imid = imin + (imax - imin) / 2;
-        if (total_cost == population[imid].second)
+        int middle = minimum + (maxmum - minimum) / 2;
+        if (total_cost == population[middle].second)
         {
-            population.insert(population.begin() + imid, make_pair(child, total_cost));
+            population.insert(population.begin() + middle, make_pair(child, total_cost));
             return;
         }
-        else if (total_cost > population[imid].second)
-            imin = imid + 1;
+        else if (total_cost > population[middle].second)
+            minimum = middle + 1;
         else
-            imax = imid - 1;
+            maxmum = middle - 1;
     }
-    population.insert(population.begin() + imin, make_pair(child, total_cost));
+
+    population.insert(population.begin() + minimum, make_pair(child, total_cost));
 }
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : CrossOver()
  * 
- * Purpose  : //TODO : Need to add the comment here
+ * Purpose  : 
  * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments       
  ******************************************************************************************************************/
 void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
 {
@@ -199,6 +203,7 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
         genes1[parent1[i]] = 0;
         genes2[parent2[i]] = 0;
     }
+
     int point1 = rand() % (graph->_size - 1) + 1;
     int point2 = rand() % (graph->_size - point1) + point1;
 
@@ -217,6 +222,7 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
                 point2++;
         }
     }
+
     for (int i = 0; i < point1; i++)
     {
         child1.push_back(parent1[i]);
@@ -224,11 +230,13 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
         genes1[parent1[i]] = 1;
         genes2[parent2[i]] = 1;
     }
+
     for (int i = point2 + 1; i < graph->_size; i++)
     {
         genes1[parent1[i]] = 1;
         genes2[parent2[i]] = 1;
     }
+
     for (int i = point2; i >= point1; i--)
     {
         if (genes1[parent2[i]] == 0)
@@ -267,12 +275,15 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
             }
         }
     }
+
     for (int i = point2 + 1; i < graph->_size; i++)
     {
         child1.push_back(parent1[i]);
         child2.push_back(parent2[i]);
     }
+
     int mutation = rand() % 100 + 1;
+
     if (mutation <= mutation_rate)
     {
         int index_gene1, index_gene2;
@@ -290,6 +301,7 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
         InsertBinarySearch(child1, total_cost_child1);
         real_size_population++;
     }
+
     if (!IsChromosomeExists(child2))
     {
         InsertBinarySearch(child2, total_cost_child2);
@@ -298,13 +310,15 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
 }
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : Run()
  * 
- * Purpose  : //TODO : Need to add the comment here
+ * Purpose  : 
  * 
- * Inputs   : //TODO : Need to add the comment here
- * Outputs  : //TOOD : Need to add the comment here           
+ * Inputs   :
+ * Outputs  :      
+ * TODO     : Need to add the proper comments
  ******************************************************************************************************************/
+
 void GeneticAlgorithm::Run()
 {
     initialPopulation();
@@ -312,7 +326,7 @@ void GeneticAlgorithm::Run()
         return;
 
     float best = population[0].second;
-    //for(int i = 0; i < generations; i++)
+
     int i = 0;
     while (i >= 0)
     {
@@ -373,15 +387,17 @@ void GeneticAlgorithm::Run()
             cout << " | Cost: " << population[0].second << endl;
             ;
         }
-        else if (i % 1000 == 0 && best > population[0].second)
+        else if (i % 100 == 0 && best > population[0].second)
         {
             best = population[0].second;
             const vector<int> &vec = population[0].first;
             cout << "Tour : " << endl;
+
             for (int i = 0; i < graph->_size; i++)
                 cout << vec[i] << " ";
             cout << " | Cost: " << population[0].second << endl;
         }
+
         i++;
     }
 

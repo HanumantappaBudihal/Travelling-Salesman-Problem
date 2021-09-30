@@ -2,7 +2,7 @@
 /***************************************************************************************************************************
  * File           : GeneticAlgorithm.h
  * 
- * Purpose        : //TODO : Need add the proper comment
+ * Purpose        : Implmenent the GA to solve the TSP Problem
  * 
  * Author         : Hanumantappa Budihal 
  * Date           : 27-09-2021 
@@ -22,6 +22,7 @@ using namespace std;
 #define GeneticAlgorithm_H
 
 typedef std::pair<std::vector<int>, float> my_pair;
+
 class GeneticAlgorithm
 {
 private:
@@ -29,14 +30,13 @@ private:
     std::vector<my_pair> population;
     int size_population;
     int real_size_population;
-    int generations;
     int mutation_rate;
 
 private:
     void initialPopulation();
 
 public:
-    GeneticAlgorithm(Graph *graph, int amount_population, int generations, int mutation_rate);
+    GeneticAlgorithm(Graph *graph, int amount_population, int mutation_rate);
     float IsValidSolution(std::vector<int> &solution);
     void CrossOver(std::vector<int> &parent1, std::vector<int> &parent2);
     void InsertBinarySearch(std::vector<int> &child, float total_cost);

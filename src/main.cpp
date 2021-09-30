@@ -30,11 +30,11 @@ int main()
     cin >> numberOfCities; //Read the number of cities
 
     Graph *graph = new Graph(numberOfCities, 0);
-    float coord[numberOfCities][2]; //Cities coordinates
+    float coordinates[numberOfCities][2]; //Cities coordinates
 
     for (int i = 0; i < numberOfCities; i++)
     {
-        cin >> coord[i][0] >> coord[i][1];
+        cin >> coordinates[i][0] >> coordinates[i][1];
     }
 
     //Read the input matrix data and create the edges to graph
@@ -48,12 +48,12 @@ int main()
         }
     }
 
-    //sizePopulation = 20
-    //generations = 100000
-    //mutationRate = 17
-    GeneticAlgorithm genetic(graph, 20, 100000, 17);
+    //TODO : Need to analysis these two parameter
+    //sizePopulation =  25% if the number of citiies
+    //mutationRate = 25% of the number of citiies
+    GeneticAlgorithm genetic(graph, numberOfCities / 4, numberOfCities / 4);
     genetic.Run();
 
-    cout << "\n\nTime for to run the genetic algorithm: " << float(clock() - begin_time) / CLOCKS_PER_SEC << " seconds.";
+    cout << "\n\nTime taken to run the genetic algorithm: " << float(clock() - begin_time) / CLOCKS_PER_SEC << " seconds.";
     return 0;
 } //End of main method
