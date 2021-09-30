@@ -11,19 +11,19 @@
  * 
  * Change Log     : Initial Creation : 30-09-2021
  *****************************************************************************************************************/
-#include "../include/Graph.h"
+#include "../include/Data.h"
 
 using namespace std;
 
 /*****************************************************************************************************************
- * Function : Graph (Constructor)
+ * Function : Data (Constructor)
  * 
- * Purpose  : Initiate the graph instance with size of the graph , initial vertex and totalEdges
+ * Purpose  : Initiate the Data instance with size of the graph , initial vertex and totalEdges
  * 
  * Inputs   : Size of the graph and initial vertex
  * Outputs  : New instance created with give graph size and vertex           
  ******************************************************************************************************************/
-Graph::Graph(int size, int initialVertex)
+Data::Data(int size, int initialVertex)
 {
     this->_size = size;
     this->_initialVertex = initialVertex;
@@ -38,7 +38,7 @@ Graph::Graph(int size, int initialVertex)
  * Inputs   : source , destination and cost between the source and destination
  * Outputs  : //TOOD : Need to add the comment here       
  ******************************************************************************************************************/
-void Graph::AddEdge(int source, int destination, float cost)
+void Data::AddEdge(int source, int destination, float cost)
 {
     _edges[make_pair(source, destination)] = cost;
 } // End of AddEdge
@@ -51,7 +51,7 @@ void Graph::AddEdge(int source, int destination, float cost)
  * Inputs   : source and destination
  * Outputs  : return the edge cost betweent the source and destination          
  ******************************************************************************************************************/
-float Graph::GetEdgeCost(int source, int destination)
+float Data::GetEdgeCost(int source, int destination)
 {
     map<pair<int, int>, float>::iterator it = _edges.find(make_pair(source, destination));
 

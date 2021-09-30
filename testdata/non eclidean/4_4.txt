@@ -1,4 +1,4 @@
-noneuclidean
+non euclidean
 4
 0 0
 0 1

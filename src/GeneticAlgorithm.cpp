@@ -15,7 +15,7 @@
 #include <bits/stdc++.h>
 
 //User defined header file
-#include "../include/Graph.h"
+#include "../include/Data.h"
 #include "../include/GeneticAlgorithm.h"
 
 using namespace std;
@@ -39,11 +39,11 @@ struct sort_pred
  * Function : GeneticAlgorithm (Constructor)
  * 
  * Purpose  : Create the instane of GeneticAlgorithm with intial data * 
- * Inputs   : Graph data, size of population  and mutation rate         
+ * Inputs   :  Data, size of population  and mutation rate         
  ******************************************************************************************************************/
-GeneticAlgorithm::GeneticAlgorithm(Graph *graph, int sizePopulation, int mutationRate)
+GeneticAlgorithm::GeneticAlgorithm(Data *data, int sizePopulation, int mutationRate)
 {
-    this->graph = graph;
+    this->data = data;
     this->size_population = sizePopulation;
     this->real_size_population = 0;
     this->mutation_rate = mutationRate;
@@ -63,17 +63,17 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
     float totalCost = 0;
     set<int> setSolution;
 
-    for (int i = 0; i < graph->_size; i++)
+    for (int i = 0; i < data->_size; i++)
         setSolution.insert(solution[i]);
 
-    if (setSolution.size() != (unsigned)graph->_size)
+    if (setSolution.size() != (unsigned)data->_size)
         return -1;
 
-    for (int i = 0; i < graph->_size; i++)
+    for (int i = 0; i < data->_size; i++)
     {
-        if (i + 1 < graph->_size)
+        if (i + 1 < data->_size)
         {
-            float cost = graph->GetEdgeCost(solution[i], solution[i + 1]);
+            float cost = data->GetEdgeCost(solution[i], solution[i + 1]);
             if (cost == -1)
                 return -1;
             else
@@ -81,7 +81,7 @@ float GeneticAlgorithm::IsValidSolution(vector<int> &solution)
         }
         else
         {
-            float cost = graph->GetEdgeCost(solution[i], solution[0]);
+            float cost = data->GetEdgeCost(solution[i], solution[0]);
             if (cost == -1)
                 return -1;
             else
@@ -125,11 +125,11 @@ bool GeneticAlgorithm::IsChromosomeExists(const vector<int> &v)
 void GeneticAlgorithm::initialPopulation() //Private method
 {
     vector<int> parent;
-    parent.push_back(graph->_initialVertex);
+    parent.push_back(data->_initialVertex);
 
-    for (int i = 0; i < graph->_size; i++)
+    for (int i = 0; i < data->_size; i++)
     {
-        if (i != graph->_initialVertex)
+        if (i != data->_initialVertex)
             parent.push_back(i);
     }
 
@@ -139,7 +139,7 @@ void GeneticAlgorithm::initialPopulation() //Private method
 
     for (int i = 0; i < 10000 && real_size_population != size_population; i++)
     {
-        random_shuffle(parent.begin() + 1, parent.begin() + (rand() % (graph->_size - 1) + 1));
+        random_shuffle(parent.begin() + 1, parent.begin() + (rand() % (data->_size - 1) + 1));
 
         float total_cost = IsValidSolution(parent);
 
@@ -187,7 +187,7 @@ void GeneticAlgorithm::InsertBinarySearch(vector<int> &child, float total_cost)
 /*****************************************************************************************************************
  * Function : CrossOver()
  * 
- * Purpose  : 
+ * Purpose  : Apply the cross over algorithm to create the childre
  * 
  * Inputs   :
  * Outputs  :      
@@ -198,20 +198,20 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
     vector<int> child1, child2;
     map<int, int> genes1, genes2;
 
-    for (int i = 0; i < graph->_size; i++)
+    for (int i = 0; i < data->_size; i++)
     {
         genes1[parent1[i]] = 0;
         genes2[parent2[i]] = 0;
     }
 
-    int point1 = rand() % (graph->_size - 1) + 1;
-    int point2 = rand() % (graph->_size - point1) + point1;
+    int point1 = rand() % (data->_size - 1) + 1;
+    int point2 = rand() % (data->_size - point1) + point1;
 
     if (point1 == point2)
     {
         if (point1 - 1 > 1)
             point1--;
-        else if (point2 + 1 < graph->_size)
+        else if (point2 + 1 < data->_size)
             point2++;
         else
         {
@@ -231,7 +231,7 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
         genes2[parent2[i]] = 1;
     }
 
-    for (int i = point2 + 1; i < graph->_size; i++)
+    for (int i = point2 + 1; i < data->_size; i++)
     {
         genes1[parent1[i]] = 1;
         genes2[parent2[i]] = 1;
@@ -276,19 +276,19 @@ void GeneticAlgorithm::CrossOver(vector<int> &parent1, vector<int> &parent2)
         }
     }
 
-    for (int i = point2 + 1; i < graph->_size; i++)
+    for (int i = point2 + 1; i < data->_size; i++)
     {
         child1.push_back(parent1[i]);
         child2.push_back(parent2[i]);
     }
 
-    int mutation = rand() % 100 + 1;
+    int mutation = rand() % 200 + 1;
 
     if (mutation <= mutation_rate)
     {
         int index_gene1, index_gene2;
-        index_gene1 = rand() % (graph->_size - 1) + 1;
-        index_gene2 = rand() % (graph->_size - 1) + 1;
+        index_gene1 = rand() % (data->_size - 1) + 1;
+        index_gene2 = rand() % (data->_size - 1) + 1;
 
         swap(child1[index_gene2], child1[index_gene1]);
         swap(child2[index_gene1], child2[index_gene2]);
@@ -381,21 +381,28 @@ void GeneticAlgorithm::Run()
         {
             best = population[0].second;
             const vector<int> &vec = population[0].first;
-            cout << "Tour : " << endl;
-            for (int i = 0; i < graph->_size; i++)
+            //cout << "Tour : " << endl;
+            cout << endl;
+            for (int i = 0; i < data->_size; i++)
                 cout << vec[i] << " ";
-            cout << " | Cost: " << population[0].second << endl;
-            ;
+
+            cout << " | Cost: " << population[0].second;
+            cout << endl;
+            //cout << endl;
         }
         else if (i % 100 == 0 && best > population[0].second)
         {
             best = population[0].second;
             const vector<int> &vec = population[0].first;
-            cout << "Tour : " << endl;
+            //cout << "Tour : " << endl;
+            cout << endl;
 
-            for (int i = 0; i < graph->_size; i++)
+            for (int i = 0; i < data->_size; i++)
                 cout << vec[i] << " ";
-            cout << " | Cost: " << population[0].second << endl;
+
+            cout << " | Cost: " << population[0].second;
+            cout << endl;
+            //cout << endl;
         }
 
         i++;
@@ -403,7 +410,7 @@ void GeneticAlgorithm::Run()
 
     cout << "\nBest solution: " << endl;
     const vector<int> &vec = population[0].first;
-    for (int i = 0; i < graph->_size; i++)
+    for (int i = 0; i < data->_size; i++)
         cout << vec[i] << " ";
     cout << " | Cost: " << population[0].second << endl;
 }

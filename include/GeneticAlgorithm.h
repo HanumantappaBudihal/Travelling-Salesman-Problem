@@ -5,16 +5,16 @@
  * Purpose        : Implmenent the GA to solve the TSP Problem
  * 
  * Author         : Hanumantappa Budihal 
- * Date           : 27-09-2021 
+ * Date           : 30-09-2021 
  * 
  * Bugs Log       :
  * 
- * Change Log     : Initial Creation : 23-09-2021
+ * Change Log     : Initial Creation : 30-09-2021 
  ****************************************************************************************************************************/
 
 #include <map>
 #include <vector>
-#include "Graph.h"
+#include "Data.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ typedef std::pair<std::vector<int>, float> my_pair;
 class GeneticAlgorithm
 {
 private:
-    Graph *graph;
+    Data *data;
     std::vector<my_pair> population;
     int size_population;
     int real_size_population;
@@ -36,7 +36,7 @@ private:
     void initialPopulation();
 
 public:
-    GeneticAlgorithm(Graph *graph, int amount_population, int mutation_rate);
+    GeneticAlgorithm(Data *data, int amount_population, int mutation_rate);
     float IsValidSolution(std::vector<int> &solution);
     void CrossOver(std::vector<int> &parent1, std::vector<int> &parent2);
     void InsertBinarySearch(std::vector<int> &child, float total_cost);

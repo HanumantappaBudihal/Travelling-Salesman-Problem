@@ -19,8 +19,8 @@ CC = g++
 
 all: $(BINDIR)/tsp 
 
-$(BINDIR)/tsp: $(OBJDIR)/Main.o  $(OBJDIR)/GeneticAlgorithm.o $(OBJDIR)/Graph.o
-	$(CC) -g -o $(BINDIR)/tsp  $(OBJDIR)/Main.o $(OBJDIR)/GeneticAlgorithm.o  $(OBJDIR)/Graph.o -I$(INCDIR)
+$(BINDIR)/tsp: $(OBJDIR)/Main.o  $(OBJDIR)/GeneticAlgorithm.o $(OBJDIR)/Data.o
+	$(CC) -g -o $(BINDIR)/tsp  $(OBJDIR)/Main.o $(OBJDIR)/GeneticAlgorithm.o  $(OBJDIR)/Data.o -I$(INCDIR)
 
 $(OBJDIR)/Main.o: $(SRCDIR)/Main.cpp 
 	$(CC) $(CFLAGS) -o $(OBJDIR)/Main.o $(SRCDIR)/Main.cpp -I$(INCDIR)
@@ -28,8 +28,8 @@ $(OBJDIR)/Main.o: $(SRCDIR)/Main.cpp
 $(OBJDIR)/GeneticAlgorithm.o:	$(SRCDIR)/GeneticAlgorithm.cpp
 	$(CC) $(CFLAGS) -o $(OBJDIR)/GeneticAlgorithm.o $(SRCDIR)/GeneticAlgorithm.cpp -I$(INCDIR)
 
-$(OBJDIR)/Graph.o:	$(SRCDIR)/Graph.cpp
-	$(CC) $(CFLAGS) -o $(OBJDIR)/Graph.o $(SRCDIR)/Graph.cpp -I$(INCDIR)
+$(OBJDIR)/Data.o:	$(SRCDIR)/Data.cpp
+	$(CC) $(CFLAGS) -o $(OBJDIR)/Data.o $(SRCDIR)/Data.cpp -I$(INCDIR)
 
 clean: 
 	rm -fr $(BINDIR)/* $(OBJDIR)/* 
