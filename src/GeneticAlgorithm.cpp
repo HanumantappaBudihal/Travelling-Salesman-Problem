@@ -386,9 +386,8 @@ void GeneticAlgorithm::Run()
             for (int i = 0; i < data->_size; i++)
                 cout << vec[i] << " ";
 
-            cout << " | Cost: " << population[0].second;
+            //cout << " | Cost: " << population[0].second;
             cout << endl;
-            //cout << endl;
         }
         else if (i % 100 == 0 && best > population[0].second)
         {
@@ -400,9 +399,8 @@ void GeneticAlgorithm::Run()
             for (int i = 0; i < data->_size; i++)
                 cout << vec[i] << " ";
 
-            cout << " | Cost: " << population[0].second;
+            //cout << " | Cost: " << population[0].second;
             cout << endl;
-            //cout << endl;
         }
 
         i++;

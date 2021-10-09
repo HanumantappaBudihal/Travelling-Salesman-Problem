@@ -136,8 +136,8 @@ int main()
     }
 
     //TODO : Need to analysis these two parameter
-    //sizePopulation =  50% if the number of citiies
-    //mutationRate = 25% of the number of citiies
+    //sizePopulation =  25% if the number of citiies
+    //mutationRate = 50% of the number of citiies
     GeneticAlgorithm genetic(data, (numberOfCities * 0.25), (numberOfCities * 0.5));
     genetic.Run();
 
