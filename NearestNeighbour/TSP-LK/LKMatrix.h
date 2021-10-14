@@ -1,0 +1,31 @@
+#pragma once
+#ifndef LK_MATRIX
+#define LK_MATRIX
+
+#include <vector>
+
+using namespace std;
+
+class LKMatrix {
+public:
+	int size;
+	LKMatrix(vector<vector<int> > &edgeDistances,vector<int> &ids,vector<int> &tour);
+	vector<int> getCurrentTour();
+	int getCurrentTourDistance();
+	void optimizeTour();
+	void printTour();
+	void printTourIds();
+
+
+private:
+	vector<int> tour;
+	vector<vector<int> > edgeFlags;
+	vector<int> ids;
+	void joinLocations(int i, int j);
+	vector<vector<int> > edgeDistances;
+	void LKMove(int tourStart);
+	void reverse(int start, int end);
+	bool isTour();
+};
+
+#endif

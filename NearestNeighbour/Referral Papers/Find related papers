@@ -1,0 +1,44 @@
+LKH Algorithm
+
+The Traveling Salesman Problem is one of the most typical N-P hard problems. And there are many kinds of algorithm on this problem. 
+Lin-Kernighan-Helsgaun algorithm is very fast and typical.
+
+We are trying to understand this paper “Improving Lin-Kernighan-Helsgaun with Crossover on Clustered Instances of the TSP” so that to 
+optimize our final solution. 
+
+Here is the general idea and the history of LKH algorithm:
+
+LKH-1: Lin-Kernighan-Helsgaun 
+From 1999-2009, Keld Helsgaun added a number of sophisticated optimizations to the basic LK algorithm: 
+• The first set were added in 1999: LKH-1. 
+• And the second set in 2009:  LKH-2. 
+ 
+ Key ideas in LKH-1: 
+• Use K=5 (prefer this value of K over smaller ones).  
+    Experimental evidence showed that the improvement going from 4- to 5-OPT is much better than 3- to 4-OPT. 
+• Relax sequentiality allow some xi's and yi's to repeat. 
+• Replace closest m neighbors with a different set of M neighbors: ◦ Problem with LK: 
+
+ LKH-2: Lin-Kernighan-Helsgaun, Part 2 
+Key additions to LKH-1: 
+• Allow K to increase beyond 5. 
+• Problem-partitioning: 
+          Divide points into clusters. 
+          Find best tour for each cluster. 
+          Stitch together into final tour. 
+• Run algorithm many times and merge "best parts" from multiple tours. 
+• Use sophisticated tour data structures to speed up running time. 
+• Results: million city problem with 0.058% of Held-Karp. Within 0.058% of optimal. 
+
+Examine the partitioning idea: 
+• LKH-2 tries a number of partitionings, using different clustering algorithms. 
+• K-means clustering: 
+  repeat
+  Pick k centroids.             // Note: this is a different K than in K-OPT.
+  Assign each point to closest centroid.
+  Re-compute the centroid based on assignments.
+  until no change
+
+
+
+
